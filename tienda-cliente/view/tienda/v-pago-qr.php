@@ -35,7 +35,7 @@
         <h2 class="text-center">Pago con QR</h2>
         <p class="text-center">Escanea el QR para simular el pago y generar el comprobante.</p>
         <div class="text-center mb-4">
-            <img alt="QR de pago" src="https://chart.googleapis.com/chart?chs=280x280&cht=qr&chl=<?php echo urlencode($scanUrl); ?>">
+            <img alt="QR de pago" src="<?php echo $baseUrl; ?>/recursos/QR/image.png" style="width:280px;height:280px;object-fit:contain;">
         </div>
         <div class="text-center">
             <a href="c-pago-qr-simular.php?nro=<?php echo $nroVenta; ?>" class="btn btn-success">Simular Pago</a>
