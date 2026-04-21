@@ -9,7 +9,7 @@
 
 date_default_timezone_set('America/La_Paz');
 
-$appTitle = "Delivery de Pizzas";
+$appTitle = "E-Commerce";
 $appSubtitle = "Version 1.0";
 
 $baseUrl = dirname($_SERVER["SCRIPT_NAME"]);

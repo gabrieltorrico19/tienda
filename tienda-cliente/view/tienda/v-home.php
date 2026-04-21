@@ -209,7 +209,7 @@
     </nav>
 
     <div class="container mt-5">
-        <h1 class="text-center">Bienvenido a nuestra tienda en linea</h1>
+        <h1 class="text-center mb-4">Bienvenido a nuestra tienda en linea</h1>
         <div class="row">
             <?php if (!empty($productos)) { ?>
                 <?php foreach ($productos as $producto) { ?>
