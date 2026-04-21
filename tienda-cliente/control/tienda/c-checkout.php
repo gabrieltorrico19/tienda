@@ -74,21 +74,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $item++;
         }
 
-        $oRN_FormaPago->AsignarFormaPago($nroVenta, $codFormaPago);
-        $oRN_NotaVenta->CompletarVenta($nroVenta, $codSucursal);
+        try {
+            $oRN_FormaPago->AsignarFormaPago($nroVenta, $codFormaPago);
+            $oRN_NotaVenta->CompletarVenta($nroVenta, $codSucursal);
 
-        $_SESSION["ULTIMA_VENTA"] = $nroVenta;
-        $_SESSION["ULTIMA_FORMA_PAGO"] = $codFormaPago;
-        $_SESSION["ULTIMA_SUCURSAL"] = $codSucursal;
+            $_SESSION["ULTIMA_VENTA"] = $nroVenta;
+            $_SESSION["ULTIMA_FORMA_PAGO"] = $codFormaPago;
+            $_SESSION["ULTIMA_SUCURSAL"] = $codSucursal;
 
-        $_SESSION["carrito"] = [];
-        $isQr = $formaPago && stripos($formaPago->nombre, "qr") !== false;
-        if ($isQr) {
-            header("Location: c-pago-qr.php?nro=" . $nroVenta);
-        } else {
-            header("Location: c-payment-success.php");
+            $_SESSION["carrito"] = [];
+            $isQr = $formaPago && stripos($formaPago->nombre, "qr") !== false;
+            if ($isQr) {
+                header("Location: c-pago-qr.php?nro=" . $nroVenta);
+            } else {
+                header("Location: c-payment-success.php");
+            }
+            exit();
+        } catch (mysqli_sql_exception $e) {
+            $error = $e->getMessage();
         }
-        exit();
     }
 }
 

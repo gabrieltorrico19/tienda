@@ -18,7 +18,7 @@ class RN_Categoria extends DataBase
         if ($this->ContainsData($res)) {
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
-                $list[] = new Categoria($item["cod"], $item["nombre"], $item["descripcion"]);
+                $list[] = new Categoria($item["cod"], $item["nombre"], $item["descripcion"] ?? "");
             }
         }
 
@@ -34,7 +34,7 @@ class RN_Categoria extends DataBase
         if ($this->ContainsData($res)) {
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
-                $oCategoria = new Categoria($item["cod"], $item["nombre"], $item["descripcion"]);
+                $oCategoria = new Categoria($item["cod"], $item["nombre"], $item["descripcion"] ?? "");
             }
         }
 

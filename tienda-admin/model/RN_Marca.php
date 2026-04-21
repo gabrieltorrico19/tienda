@@ -18,7 +18,7 @@ class RN_Marca extends DataBase
         if ($this->ContainsData($res)) {
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
-                $list[] = new Marca($item["cod"], $item["nombre"], $item["descripcion"]);
+                $list[] = new Marca($item["cod"], $item["nombre"], $item["descripcion"] ?? "");
             }
         }
 
@@ -34,7 +34,7 @@ class RN_Marca extends DataBase
         if ($this->ContainsData($res)) {
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
-                $oMarca = new Marca($item["cod"], $item["nombre"], $item["descripcion"]);
+                $oMarca = new Marca($item["cod"], $item["nombre"], $item["descripcion"] ?? "");
             }
         }
 
