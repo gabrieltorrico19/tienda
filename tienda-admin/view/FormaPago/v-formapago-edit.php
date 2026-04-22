@@ -191,7 +191,7 @@
             </div>
             <div class="form-group">
                 <label for="estado">Estado:</label>
-                <select class="form-control" id="estado" name="estado" required>
+                <select class="form-control form-control-lg" id="estado" name="estado" required>
                     <option value="activa" <?php echo $oForma->estado === "activa" ? "selected" : ""; ?>>Activa</option>
                     <option value="inactiva" <?php echo $oForma->estado === "inactiva" ? "selected" : ""; ?>>Inactiva</option>
                 </select>

@@ -194,7 +194,7 @@
             </div>
             <div class="form-group">
                 <label for="estado">Estado:</label>
-                <select class="form-control" id="estado" name="estado" required>
+                <select class="form-control form-control-lg" id="estado" name="estado" required>
                     <option value="disponible">Disponible</option>
                     <option value="agotado">Agotado</option>
                     <option value="descontinuado">Descontinuado</option>
@@ -202,7 +202,7 @@
             </div>
             <div class="form-group">
                 <label for="codMarca">Marca:</label>
-                <select class="form-control" id="codMarca" name="codMarca" required>
+                <select class="form-control form-control-lg" id="codMarca" name="codMarca" required>
                     <option value="">Seleccione</option>
                     <?php foreach ($marcas as $marca) { ?>
                         <option value="<?php echo $marca["cod"]; ?>"><?php echo $marca["nombre"]; ?></option>
@@ -211,7 +211,7 @@
             </div>
             <div class="form-group">
                 <label for="codIndustria">Industria:</label>
-                <select class="form-control" id="codIndustria" name="codIndustria" required>
+                <select class="form-control form-control-lg" id="codIndustria" name="codIndustria" required>
                     <option value="">Seleccione</option>
                     <?php foreach ($industrias as $industria) { ?>
                         <option value="<?php echo $industria["cod"]; ?>"><?php echo $industria["nombre"]; ?></option>
@@ -220,7 +220,7 @@
             </div>
             <div class="form-group">
                 <label for="codCategoria">Categoria:</label>
-                <select class="form-control" id="codCategoria" name="codCategoria" required>
+                <select class="form-control form-control-lg" id="codCategoria" name="codCategoria" required>
                     <option value="">Seleccione</option>
                     <?php foreach ($categorias as $categoria) { ?>
                         <option value="<?php echo $categoria["cod"]; ?>"><?php echo $categoria["nombre"]; ?></option>

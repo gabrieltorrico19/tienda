@@ -196,7 +196,7 @@
             </div>
             <div class="form-group">
                 <label for="estado">Estado:</label>
-                <select class="form-control" id="estado" name="estado" required>
+                <select class="form-control form-control-lg" id="estado" name="estado" required>
                     <option value="disponible" <?php echo $oProducto->estado === "disponible" ? "selected" : ""; ?>>Disponible</option>
                     <option value="agotado" <?php echo $oProducto->estado === "agotado" ? "selected" : ""; ?>>Agotado</option>
                     <option value="descontinuado" <?php echo $oProducto->estado === "descontinuado" ? "selected" : ""; ?>>Descontinuado</option>
@@ -204,7 +204,7 @@
             </div>
             <div class="form-group">
                 <label for="codMarca">Marca:</label>
-                <select class="form-control" id="codMarca" name="codMarca" required>
+                <select class="form-control form-control-lg" id="codMarca" name="codMarca" required>
                     <option value="">Seleccione</option>
                     <?php foreach ($marcas as $marca) { ?>
                         <option value="<?php echo $marca["cod"]; ?>" <?php echo (int)$oProducto->codMarca === (int)$marca["cod"] ? "selected" : ""; ?>><?php echo $marca["nombre"]; ?></option>
@@ -213,7 +213,7 @@
             </div>
             <div class="form-group">
                 <label for="codIndustria">Industria:</label>
-                <select class="form-control" id="codIndustria" name="codIndustria" required>
+                <select class="form-control form-control-lg" id="codIndustria" name="codIndustria" required>
                     <option value="">Seleccione</option>
                     <?php foreach ($industrias as $industria) { ?>
                         <option value="<?php echo $industria["cod"]; ?>" <?php echo (int)$oProducto->codIndustria === (int)$industria["cod"] ? "selected" : ""; ?>><?php echo $industria["nombre"]; ?></option>
@@ -222,7 +222,7 @@
             </div>
             <div class="form-group">
                 <label for="codCategoria">Categoria:</label>
-                <select class="form-control" id="codCategoria" name="codCategoria" required>
+                <select class="form-control form-control-lg" id="codCategoria" name="codCategoria" required>
                     <option value="">Seleccione</option>
                     <?php foreach ($categorias as $categoria) { ?>
                         <option value="<?php echo $categoria["cod"]; ?>" <?php echo (int)$oProducto->codCategoria === (int)$categoria["cod"] ? "selected" : ""; ?>><?php echo $categoria["nombre"]; ?></option>
