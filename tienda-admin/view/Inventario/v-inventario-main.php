@@ -181,7 +181,7 @@
 
         <form method="GET" class="form-inline mb-3">
             <label for="codSucursal" class="mr-2">Sucursal:</label>
-            <select class="form-control mr-2" id="codSucursal" name="codSucursal" onchange="this.form.submit()">
+            <select class="form-control form-control-lg" id="codSucursal" name="codSucursal" onchange="this.form.submit()">
                 <option value="0">Seleccione...</option>
                 <?php foreach ($sucursales as $sucursal) { ?>
                     <option value="<?php echo $sucursal->cod; ?>" <?php echo ($codSucursal == $sucursal->cod) ? "selected" : ""; ?>>

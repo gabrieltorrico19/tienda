@@ -231,7 +231,7 @@
         <form method="POST" action="">
             <div class="form-group">
                 <label for="codFormaPago">Forma de pago:</label>
-                <select class="form-control" id="codFormaPago" name="codFormaPago" required>
+                <select class="form-control form-control-lg" id="codFormaPago" name="codFormaPago" required>
                     <option value="">Seleccione</option>
                     <?php foreach ($formasPago as $forma) { ?>
                         <option value="<?php echo $forma->cod; ?>"><?php echo $forma->nombre; ?></option>
@@ -240,7 +240,7 @@
             </div>
             <div class="form-group">
                 <label for="codSucursal">Sucursal:</label>
-                <select class="form-control" id="codSucursal" name="codSucursal" required>
+                <select class="form-control form-control-lg" id="codSucursal" name="codSucursal" required>
                     <option value="">Seleccione</option>
                     <?php foreach ($sucursales as $sucursal) { ?>
                         <option value="<?php echo $sucursal->cod; ?>"><?php echo $sucursal->nombre; ?></option>

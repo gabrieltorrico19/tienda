@@ -182,7 +182,7 @@
         <form action="c-inventario-save.php" method="POST">
             <div class="form-group">
                 <label for="codSucursal">Sucursal:</label>
-                <select class="form-control" id="codSucursal" name="codSucursal" required>
+                <select class="form-control form-control-lg" id="codSucursal" name="codSucursal" required>
                     <option value="0">Seleccione...</option>
                     <?php foreach ($sucursales as $sucursal) { ?>
                         <option value="<?php echo $sucursal->cod; ?>" <?php echo ($codSucursal == $sucursal->cod) ? "selected" : ""; ?>>
@@ -193,7 +193,7 @@
             </div>
             <div class="form-group">
                 <label for="codProducto">Producto:</label>
-                <select class="form-control" id="codProducto" name="codProducto" required>
+                <select class="form-control form-control-lg" id="codProducto" name="codProducto" required>
                     <option value="0">Seleccione...</option>
                     <?php foreach ($productos as $producto) { ?>
                         <option value="<?php echo $producto->cod; ?>">

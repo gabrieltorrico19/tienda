@@ -194,7 +194,7 @@
             </div>
             <div class="form-group">
                 <label for="estado">Estado:</label>
-                <select class="form-control" id="estado" name="estado" required>
+                <select class="form-control form-control-lg" id="estado" name="estado" required>
                     <option value="activa">Activa</option>
                     <option value="inactiva">Inactiva</option>
                 </select>
