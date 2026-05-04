@@ -2,7 +2,7 @@
 
 session_start();
 if (!isset($_SESSION["AGROVET4"])) {
-    header("Location: ../c-login.php");
+    header("Location: ../auth/c-login.php");
     exit();
 }
 
@@ -21,6 +21,13 @@ if ($nombre === "") {
 $oRN_Categoria = new RN_Categoria();
 $oCategoria = new Categoria(0, $nombre, $descripcion);
 $oRN_Categoria->Save($oCategoria);
+
+$carpetaNombre = preg_replace('/[^a-zA-Z0-9_-]/', '', strtolower($nombre));
+$recursosRoot = dirname(__DIR__, 2) . "/../recursos";
+$carpetaPath = $recursosRoot . "/" . $carpetaNombre;
+if (!is_dir($carpetaPath)) {
+    mkdir($carpetaPath, 0755, true);
+}
 
 header("Location: c-categoria-list.php");
 exit();

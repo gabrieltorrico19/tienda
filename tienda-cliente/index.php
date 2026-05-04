@@ -1,6 +1,4 @@
 <?php
-
-header("Location: control/tienda/c-home.php");
-exit();
-
+require_once __DIR__ . "/control/config.php";
+require_once __DIR__ . "/control/tienda/c-tienda-main.php";
 ?>

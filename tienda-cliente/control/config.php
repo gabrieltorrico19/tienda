@@ -1,22 +1,18 @@
 <?php
 
-/**
- * @author		Miguel Angel Macias Burgos
- * @company 	WBT
- * @copyright 	2026
- * @version     1.0
- */
+
 
 date_default_timezone_set('America/La_Paz');
 
 $appTitle = "E-Commerce";
 $appSubtitle = "Version 1.0";
 
-$baseUrl = dirname($_SERVER["SCRIPT_NAME"]);
-$pos = strpos($baseUrl, "/tienda-cliente");
-if ($pos !== false) {
-	$baseUrl = substr($baseUrl, 0, $pos);
-}
+$scriptPath = $_SERVER["SCRIPT_NAME"];
+$baseUrl = dirname($scriptPath);
 $baseUrl = rtrim($baseUrl, "/");
+
+if (strpos($baseUrl, "/tienda-cliente") !== false) {
+	$baseUrl = substr($baseUrl, 0, strpos($baseUrl, "/tienda-cliente") + strlen("/tienda-cliente"));
+}
 
 ?>

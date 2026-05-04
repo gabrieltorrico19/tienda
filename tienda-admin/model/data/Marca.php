@@ -6,7 +6,7 @@ class Marca
     public $nombre;
     public $descripcion;
 
-    function __construct($cod, $nombre, $descripcion)
+    function __construct($cod = 0, $nombre = "", $descripcion = "")
     {
         $this->cod = $cod;
         $this->nombre = $nombre;

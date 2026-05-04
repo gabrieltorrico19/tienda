@@ -19,11 +19,11 @@ class RN_Cuenta extends DataBase
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
                 $list[] = new Cuenta(
-                    $item["usuario"],
-                    $item["password"],
-                    $item["email"],
-                    $item["fechaCreacion"],
-                    $item["estado"]
+                    $item["USUARIO"] ?? "",
+                    $item["PASSWORD"] ?? "",
+                    $item["EMAIL"] ?? "",
+                    $item["FECHACREACION"] ?? date("Y-m-d"),
+                    $item["ESTADO"] ?? "activo"
                 );
             }
         }
@@ -41,11 +41,11 @@ class RN_Cuenta extends DataBase
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
                 $oCuenta = new Cuenta(
-                    $item["usuario"],
-                    $item["password"],
-                    $item["email"],
-                    $item["fechaCreacion"],
-                    $item["estado"]
+                    $item["USUARIO"] ?? "",
+                    $item["PASSWORD"] ?? "",
+                    $item["EMAIL"] ?? "",
+                    $item["FECHACREACION"] ?? date("Y-m-d"),
+                    $item["ESTADO"] ?? "activo"
                 );
             }
         }
@@ -56,22 +56,18 @@ class RN_Cuenta extends DataBase
 
     function Save($oCuenta)
     {
-        $sql = "CALL sp_CuentaInsertar('" . addslashes($oCuenta->usuario) . "','" .
+        $res = $this->Execute("CALL sp_CuentaInsertar('" . addslashes($oCuenta->usuario) . "','" .
             addslashes($oCuenta->password) . "','" . addslashes($oCuenta->email) . "','" .
-            addslashes($oCuenta->estado) . "')";
-
-        $res = $this->Execute($sql);
+            addslashes($oCuenta->estado) . "')");
         $this->ClearResults($res);
         return $res;
     }
 
     function Update($oCuenta)
     {
-        $sql = "CALL sp_CuentaActualizar('" . addslashes($oCuenta->usuario) . "','" .
+        $res = $this->Execute("CALL sp_CuentaActualizar('" . addslashes($oCuenta->usuario) . "','" .
             addslashes($oCuenta->password) . "','" . addslashes($oCuenta->email) . "','" .
-            addslashes($oCuenta->estado) . "')";
-
-        $res = $this->Execute($sql);
+            addslashes($oCuenta->estado) . "')");
         $this->ClearResults($res);
         return $res;
     }
@@ -88,25 +84,22 @@ class RN_Cuenta extends DataBase
         $res = $this->Execute("CALL sp_CuentaObtener('" . addslashes($usuario) . "')");
         $row = null;
 
-        if ($this->ContainsData($res)) {
-            $row = $this->FetchArray($res);
-        }
-
-        $this->ClearResults($res);
+        $row = mysqli_fetch_array($res, MYSQLI_ASSOC);
+        $row = array_change_key_case($row, CASE_UPPER);
 
         if (!$row) {
             return false;
         }
 
-        if ($row["estado"] !== "activo") {
+        if ($row["ESTADO"] !== "activo") {
             return false;
         }
 
-        if ($row["password"] !== $password) {
+        if ($row["PASSWORD"] !== $password) {
             return false;
         }
 
-        return $row["usuario"];
+        return $row["USUARIO"];
     }
 }
 

@@ -2,7 +2,7 @@
 
 session_start();
 if (!isset($_SESSION["AGROVET4"])) {
-    header("Location: ../c-login.php");
+    header("Location: ../auth/c-login.php");
     exit();
 }
 

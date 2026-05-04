@@ -10,7 +10,7 @@ class RN_DetalleNotaVenta extends DataBase
         parent::Open();
     }
 
-    function GetListByVenta($nroNotaVenta)
+    function GetList($nroNotaVenta)
     {
         $res = $this->Execute("CALL sp_DetalleNotaVentaListar(" . intval($nroNotaVenta) . ")");
         $list = array();
@@ -19,12 +19,12 @@ class RN_DetalleNotaVenta extends DataBase
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
                 $list[] = new DetalleNotaVenta(
-                    $item["nroNotaVenta"],
-                    $item["codProducto"],
-                    $item["item"],
-                    $item["cant"],
-                    $item["precioUnitario"],
-                    $item["subtotal"]
+                    $item["NRO"] ?? 0,
+                    $item["CODPRODUCTO"] ?? 0,
+                    $item["ITEM"] ?? 0,
+                    $item["CANT"] ?? 0,
+                    $item["PRECIOUNITARIO"] ?? 0,
+                    $item["SUBTOTAL"] ?? 0
                 );
             }
         }
@@ -33,7 +33,7 @@ class RN_DetalleNotaVenta extends DataBase
         return $list;
     }
 
-    function AgregarDetalle($nroNotaVenta, $codProducto, $cantidad, $item)
+    function Save($nroNotaVenta, $codProducto, $cantidad, $item)
     {
         $res = $this->Execute("CALL sp_AgregarDetalleVenta(" . intval($nroNotaVenta) . "," .
             intval($codProducto) . "," . intval($cantidad) . "," . intval($item) . ")");

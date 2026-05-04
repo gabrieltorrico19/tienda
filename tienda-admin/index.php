@@ -1,6 +1,6 @@
 <?php
 
-header("Location: control/c-login.php");
+header("Location: control/auth/c-login.php");
 exit();
 
 ?>

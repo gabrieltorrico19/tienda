@@ -1,11 +1,6 @@
 <?php
 
-/**
- * @author		Miguel Angel Macias Burgos
- * @company 	WBT
- * @copyright 	2026
- * @version     1.0
- */
+
 
 function CreateCbo($_lista, $_nameCtl, $_colValue, $_colText, $_valueSelected = ""){
     $opciones = "";

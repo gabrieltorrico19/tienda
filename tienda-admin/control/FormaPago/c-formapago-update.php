@@ -2,7 +2,7 @@
 
 session_start();
 if (!isset($_SESSION["AGROVET4"])) {
-    header("Location: ../c-login.php");
+    header("Location: ../auth/c-login.php");
     exit();
 }
 
@@ -11,7 +11,6 @@ require_once __DIR__ . "/../../model/RN_FormaPago.php";
 
 $cod = (int)($_POST["cod"] ?? 0);
 $nombre = trim($_POST["nombre"] ?? "");
-$descripcion = trim($_POST["descripcion"] ?? "");
 $estado = $_POST["estado"] ?? "activa";
 
 if ($nombre === "") {
@@ -23,8 +22,10 @@ if ($nombre === "") {
 }
 
 $oRN_FormaPago = new RN_FormaPago();
-$oForma = new FormaPago($cod, $nombre, $descripcion, $estado);
+$oForma = new FormaPago($cod, $nombre, $estado);
 $oRN_FormaPago->Update($oForma);
 
 header("Location: c-formapago-list.php");
 exit();
+
+?>

@@ -19,16 +19,16 @@ class RN_Cliente extends DataBase
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
                 $list[] = new Cliente(
-                    $item["ci"],
-                    $item["nombres"],
-                    $item["apPaterno"],
-                    $item["apMaterno"],
-                    $item["correo"],
-                    $item["direccion"],
-                    $item["nroCelular"],
-                    $item["usuarioCuenta"],
-                    $item["fechaRegistro"],
-                    $item["estado"]
+                    $item["CI"] ?? "",
+                    $item["NOMBRES"] ?? "",
+                    $item["APPATERNO"] ?? "",
+                    $item["APMATERNO"] ?? "",
+                    $item["CORREO"] ?? "",
+                    $item["DIRECCION"] ?? "",
+                    $item["NROCELULAR"] ?? "",
+                    $item["USUARIOCUENTA"] ?? "",
+                    $item["FECHAREGISTRO"] ?? date("Y-m-d"),
+                    $item["ESTADO"] ?? "activo"
                 );
             }
         }
@@ -46,16 +46,16 @@ class RN_Cliente extends DataBase
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
                 $oCliente = new Cliente(
-                    $item["ci"],
-                    $item["nombres"],
-                    $item["apPaterno"],
-                    $item["apMaterno"],
-                    $item["correo"],
-                    $item["direccion"],
-                    $item["nroCelular"],
-                    $item["usuarioCuenta"],
-                    $item["fechaRegistro"],
-                    $item["estado"]
+                    $item["CI"] ?? "",
+                    $item["NOMBRES"] ?? "",
+                    $item["APPATERNO"] ?? "",
+                    $item["APMATERNO"] ?? "",
+                    $item["CORREO"] ?? "",
+                    $item["DIRECCION"] ?? "",
+                    $item["NROCELULAR"] ?? "",
+                    $item["USUARIOCUENTA"] ?? "",
+                    $item["FECHAREGISTRO"] ?? date("Y-m-d"),
+                    $item["ESTADO"] ?? "activo"
                 );
             }
         }
@@ -66,26 +66,22 @@ class RN_Cliente extends DataBase
 
     function Save($oCliente)
     {
-        $sql = "CALL sp_ClienteInsertar('" . addslashes($oCliente->ci) . "','" .
+        $res = $this->Execute("CALL sp_ClienteInsertar('" . addslashes($oCliente->ci) . "','" .
             addslashes($oCliente->nombres) . "','" . addslashes($oCliente->apPaterno) . "','" .
             addslashes($oCliente->apMaterno) . "','" . addslashes($oCliente->correo) . "','" .
             addslashes($oCliente->direccion) . "','" . addslashes($oCliente->nroCelular) . "','" .
-            addslashes($oCliente->usuarioCuenta) . "','" . addslashes($oCliente->estado) . "')";
-
-        $res = $this->Execute($sql);
+            addslashes($oCliente->usuarioCuenta) . "','" . addslashes($oCliente->estado) . "')");
         $this->ClearResults($res);
         return $res;
     }
 
     function Update($oCliente)
     {
-        $sql = "CALL sp_ClienteActualizar('" . addslashes($oCliente->ci) . "','" .
+        $res = $this->Execute("CALL sp_ClienteActualizar('" . addslashes($oCliente->ci) . "','" .
             addslashes($oCliente->nombres) . "','" . addslashes($oCliente->apPaterno) . "','" .
             addslashes($oCliente->apMaterno) . "','" . addslashes($oCliente->correo) . "','" .
             addslashes($oCliente->direccion) . "','" . addslashes($oCliente->nroCelular) . "','" .
-            addslashes($oCliente->estado) . "')";
-
-        $res = $this->Execute($sql);
+            addslashes($oCliente->estado) . "')");
         $this->ClearResults($res);
         return $res;
     }

@@ -22,9 +22,9 @@ class Producto
         $precio,
         $imagen,
         $estado,
-        $codMarca,
-        $codIndustria,
-        $codCategoria,
+        $codMarca = 0,
+        $codIndustria = 0,
+        $codCategoria = 0,
         $marca = null,
         $industria = null,
         $categoria = null

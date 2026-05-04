@@ -19,11 +19,11 @@ class RN_DetalleProductoSucursal extends DataBase
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
                 $list[] = new DetalleProductoSucursal(
-                    $item["codProducto"],
-                    $item["codSucursal"],
-                    $item["stock"],
-                    $item["stockMinimo"],
-                    $item["fechaActualizacion"]
+                    $item["CODPRODUCTO"] ?? 0,
+                    $item["CODSUCURSAL"] ?? 0,
+                    $item["STOCK"] ?? 0,
+                    $item["STOCKMINIMO"] ?? 5,
+                    $item["FECHAACTUALIZACION"] ?? date("Y-m-d")
                 );
             }
         }
@@ -34,19 +34,18 @@ class RN_DetalleProductoSucursal extends DataBase
 
     function GetData($codProducto, $codSucursal)
     {
-        $res = $this->Execute("CALL sp_DetalleProductoSucursalObtener(" . intval($codProducto) . "," .
-            intval($codSucursal) . ")");
+        $res = $this->Execute("CALL sp_DetalleProductoSucursalObtener(" . intval($codProducto) . "," . intval($codSucursal) . ")");
         $oDetalle = null;
 
         if ($this->ContainsData($res)) {
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
                 $oDetalle = new DetalleProductoSucursal(
-                    $item["codProducto"],
-                    $item["codSucursal"],
-                    $item["stock"],
-                    $item["stockMinimo"],
-                    $item["fechaActualizacion"]
+                    $item["CODPRODUCTO"] ?? 0,
+                    $item["CODSUCURSAL"] ?? 0,
+                    $item["STOCK"] ?? 0,
+                    $item["STOCKMINIMO"] ?? 5,
+                    $item["FECHAACTUALIZACION"] ?? date("Y-m-d")
                 );
             }
         }
@@ -55,48 +54,40 @@ class RN_DetalleProductoSucursal extends DataBase
         return $oDetalle;
     }
 
-    function GetInventarioBySucursal($codSucursal)
+    function GetInventario($codSucursal)
     {
         $res = $this->Execute("CALL sp_ConsultarInventario(" . intval($codSucursal) . ")");
-        $data = array();
+        $list = array();
 
         if ($this->ContainsData($res)) {
             $data = $this->DataListStructure($res);
+            foreach ($data as $item) {
+                $list[] = $item;
+            }
         }
 
         $this->ClearResults($res);
-        return $data;
+        return $list;
+    }
+
+    function GetInventarioBySucursal($codSucursal)
+    {
+        return $this->GetInventario($codSucursal);
     }
 
     function Save($oDetalle)
     {
         $res = $this->Execute("CALL sp_ActualizarStock(" . intval($oDetalle->codProducto) . "," .
-            intval($oDetalle->codSucursal) . "," . intval($oDetalle->stock) . ")");
+            intval($oDetalle->codSucursal) . "," . intval($oDetalle->stock) . "," .
+            intval($oDetalle->stockMinimo) . ")");
         $this->ClearResults($res);
         return $res;
     }
 
-    function Update($oDetalle)
-    {
-        return $this->Save($oDetalle);
-    }
-
-    function SaveWithMinimo($codProducto, $codSucursal, $stock, $stockMinimo)
-    {
-        $sql = "INSERT INTO DetalleProductoSucursal (codProducto, codSucursal, stock, stockMinimo) VALUES (" .
-            intval($codProducto) . "," . intval($codSucursal) . "," . intval($stock) . "," . intval($stockMinimo) . ") " .
-            "ON DUPLICATE KEY UPDATE stock = VALUES(stock), stockMinimo = VALUES(stockMinimo), " .
-            "fechaActualizacion = CURRENT_TIMESTAMP";
-
-        $res = $this->Execute($sql);
-        $this->ClearResults($res);
-        return $res;
-    }
-
-    function Delete($codProducto, $codSucursal)
+    function UpdateStock($codProducto, $codSucursal, $stock, $stockMinimo)
     {
         $res = $this->Execute("CALL sp_ActualizarStock(" . intval($codProducto) . "," .
-            intval($codSucursal) . ",0)");
+            intval($codSucursal) . "," . intval($stock) . "," . intval($stockMinimo) . ")");
         $this->ClearResults($res);
         return $res;
     }

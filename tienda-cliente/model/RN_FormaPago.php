@@ -19,10 +19,9 @@ class RN_FormaPago extends DataBase
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
                 $list[] = new FormaPago(
-                    $item["cod"],
-                    $item["nombre"],
-                    $item["descripcion"],
-                    $item["estado"]
+                    $item["COD"] ?? 0,
+                    $item["NOMBRE"] ?? "",
+                    $item["ESTADO"] ?? "activa"
                 );
             }
         }
@@ -40,10 +39,9 @@ class RN_FormaPago extends DataBase
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
                 $oForma = new FormaPago(
-                    $item["cod"],
-                    $item["nombre"],
-                    $item["descripcion"],
-                    $item["estado"]
+                    $item["COD"] ?? 0,
+                    $item["NOMBRE"] ?? "",
+                    $item["ESTADO"] ?? "activa"
                 );
             }
         }

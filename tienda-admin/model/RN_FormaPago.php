@@ -18,12 +18,7 @@ class RN_FormaPago extends DataBase
         if ($this->ContainsData($res)) {
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
-                $list[] = new FormaPago(
-                    $item["cod"],
-                    $item["nombre"],
-                    $item["descripcion"],
-                    $item["estado"]
-                );
+                $list[] = new FormaPago($item["COD"] ?? 0, $item["NOMBRE"] ?? "", $item["ESTADO"] ?? "activa");
             }
         }
 
@@ -39,12 +34,7 @@ class RN_FormaPago extends DataBase
         if ($this->ContainsData($res)) {
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
-                $oForma = new FormaPago(
-                    $item["cod"],
-                    $item["nombre"],
-                    $item["descripcion"],
-                    $item["estado"]
-                );
+                $oForma = new FormaPago($item["COD"] ?? 0, $item["NOMBRE"] ?? "", $item["ESTADO"] ?? "activa");
             }
         }
 
@@ -54,21 +44,14 @@ class RN_FormaPago extends DataBase
 
     function Save($oForma)
     {
-        $sql = "CALL sp_FormaPagoInsertar('" . addslashes($oForma->nombre) . "','" .
-            addslashes($oForma->descripcion) . "','" . addslashes($oForma->estado) . "')";
-
-        $res = $this->Execute($sql);
+        $res = $this->Execute("CALL sp_FormaPagoInsertar('" . addslashes($oForma->nombre) . "','" . addslashes($oForma->estado) . "')");
         $this->ClearResults($res);
         return $res;
     }
 
     function Update($oForma)
     {
-        $sql = "CALL sp_FormaPagoActualizar(" . intval($oForma->cod) . ",'" .
-            addslashes($oForma->nombre) . "','" . addslashes($oForma->descripcion) . "','" .
-            addslashes($oForma->estado) . "')";
-
-        $res = $this->Execute($sql);
+        $res = $this->Execute("CALL sp_FormaPagoActualizar(" . intval($oForma->cod) . ",'" . addslashes($oForma->nombre) . "','" . addslashes($oForma->estado) . "')");
         $this->ClearResults($res);
         return $res;
     }
@@ -76,14 +59,6 @@ class RN_FormaPago extends DataBase
     function Delete($cod)
     {
         $res = $this->Execute("CALL sp_FormaPagoEliminar(" . intval($cod) . ")");
-        $this->ClearResults($res);
-        return $res;
-    }
-
-    function AsignarFormaPago($nroNota, $codFormaPago)
-    {
-        $res = $this->Execute("CALL sp_NotaVentaAsignarFormaPago(" . intval($nroNota) . "," .
-            intval($codFormaPago) . ")");
         $this->ClearResults($res);
         return $res;
     }

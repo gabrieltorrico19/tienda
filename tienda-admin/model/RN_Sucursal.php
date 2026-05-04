@@ -19,12 +19,12 @@ class RN_Sucursal extends DataBase
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
                 $list[] = new Sucursal(
-                    $item["cod"],
-                    $item["nombre"],
-                    $item["direccion"],
-                    $item["nroTelefono"],
-                    $item["estado"],
-                    $item["fechaCreacion"]
+                    $item["COD"] ?? 0,
+                    $item["NOMBRE"] ?? "",
+                    $item["DIRECCION"] ?? "",
+                    $item["NROTELEFONO"] ?? "",
+                    $item["ESTADO"] ?? "activa",
+                    $item["FECHACREACION"] ?? date("Y-m-d")
                 );
             }
         }
@@ -42,12 +42,12 @@ class RN_Sucursal extends DataBase
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
                 $oSucursal = new Sucursal(
-                    $item["cod"],
-                    $item["nombre"],
-                    $item["direccion"],
-                    $item["nroTelefono"],
-                    $item["estado"],
-                    $item["fechaCreacion"]
+                    $item["COD"] ?? 0,
+                    $item["NOMBRE"] ?? "",
+                    $item["DIRECCION"] ?? "",
+                    $item["NROTELEFONO"] ?? "",
+                    $item["ESTADO"] ?? "activa",
+                    $item["FECHACREACION"] ?? date("Y-m-d")
                 );
             }
         }
@@ -58,22 +58,18 @@ class RN_Sucursal extends DataBase
 
     function Save($oSucursal)
     {
-        $sql = "CALL sp_SucursalInsertar('" . addslashes($oSucursal->nombre) . "','" .
+        $res = $this->Execute("CALL sp_SucursalInsertar('" . addslashes($oSucursal->nombre) . "','" .
             addslashes($oSucursal->direccion) . "','" . addslashes($oSucursal->nroTelefono) . "','" .
-            addslashes($oSucursal->estado) . "')";
-
-        $res = $this->Execute($sql);
+            addslashes($oSucursal->estado) . "')");
         $this->ClearResults($res);
         return $res;
     }
 
     function Update($oSucursal)
     {
-        $sql = "CALL sp_SucursalActualizar(" . intval($oSucursal->cod) . ",'" .
+        $res = $this->Execute("CALL sp_SucursalActualizar(" . intval($oSucursal->cod) . ",'" .
             addslashes($oSucursal->nombre) . "','" . addslashes($oSucursal->direccion) . "','" .
-            addslashes($oSucursal->nroTelefono) . "','" . addslashes($oSucursal->estado) . "')";
-
-        $res = $this->Execute($sql);
+            addslashes($oSucursal->nroTelefono) . "','" . addslashes($oSucursal->estado) . "')");
         $this->ClearResults($res);
         return $res;
     }

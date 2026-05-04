@@ -15,11 +15,16 @@ class RN_Categoria extends DataBase
         $res = $this->Execute("CALL sp_CategoriaListar()");
         $list = array();
 
-        if ($this->ContainsData($res)) {
+if ($this->ContainsData($res)) {
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
-                $list[] = new Categoria($item["cod"], $item["nombre"], $item["descripcion"]);
+                $list[] = new Categoria(
+                    $item["COD"] ?? 0,
+                    $item["NOMBRE"] ?? "",
+                    $item["DESCRIPCION"] ?? ""
+                );
             }
+        }
         }
 
         $this->ClearResults($res);

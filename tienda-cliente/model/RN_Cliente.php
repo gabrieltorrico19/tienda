@@ -19,16 +19,16 @@ class RN_Cliente extends DataBase
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
                 $list[] = new Cliente(
-                    $item["ci"],
-                    $item["nombres"],
-                    $item["apPaterno"],
-                    $item["apMaterno"],
-                    $item["correo"],
-                    $item["direccion"],
-                    $item["nroCelular"],
-                    $item["usuarioCuenta"],
-                    $item["fechaRegistro"],
-                    $item["estado"]
+                    $item["CI"] ?? "",
+                    $item["NOMBRES"] ?? "",
+                    $item["APPATERNO"] ?? "",
+                    $item["APMATERNO"] ?? "",
+                    $item["CORREO"] ?? "",
+                    $item["DIRECCION"] ?? "",
+                    $item["NROCELULAR"] ?? "",
+                    $item["USUARIOCUENTA"] ?? "",
+                    $item["FECHAREGISTRO"] ?? date("Y-m-d"),
+                    $item["ESTADO"] ?? "activo"
                 );
             }
         }
@@ -46,16 +46,16 @@ class RN_Cliente extends DataBase
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
                 $oCliente = new Cliente(
-                    $item["ci"],
-                    $item["nombres"],
-                    $item["apPaterno"],
-                    $item["apMaterno"],
-                    $item["correo"],
-                    $item["direccion"],
-                    $item["nroCelular"],
-                    $item["usuarioCuenta"],
-                    $item["fechaRegistro"],
-                    $item["estado"]
+                    $item["CI"] ?? "",
+                    $item["NOMBRES"] ?? "",
+                    $item["APPATERNO"] ?? "",
+                    $item["APMATERNO"] ?? "",
+                    $item["CORREO"] ?? "",
+                    $item["DIRECCION"] ?? "",
+                    $item["NROCELULAR"] ?? "",
+                    $item["USUARIOCUENTA"] ?? "",
+                    $item["FECHAREGISTRO"] ?? date("Y-m-d"),
+                    $item["ESTADO"] ?? "activo"
                 );
             }
         }

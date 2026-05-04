@@ -18,7 +18,7 @@ class RN_Industria extends DataBase
         if ($this->ContainsData($res)) {
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
-                $list[] = new Industria($item["cod"], $item["nombre"]);
+                $list[] = new Industria($item["COD"] ?? 0, $item["NOMBRE"] ?? "");
             }
         }
 
@@ -34,7 +34,7 @@ class RN_Industria extends DataBase
         if ($this->ContainsData($res)) {
             $data = $this->DataListStructure($res);
             foreach ($data as $item) {
-                $oIndustria = new Industria($item["cod"], $item["nombre"]);
+                $oIndustria = new Industria($item["COD"] ?? 0, $item["NOMBRE"] ?? "");
             }
         }
 
@@ -51,8 +51,7 @@ class RN_Industria extends DataBase
 
     function Update($oIndustria)
     {
-        $res = $this->Execute("CALL sp_IndustriaActualizar(" . intval($oIndustria->cod) . ",'" .
-            addslashes($oIndustria->nombre) . "')");
+        $res = $this->Execute("CALL sp_IndustriaActualizar(" . intval($oIndustria->cod) . ",'" . addslashes($oIndustria->nombre) . "')");
         $this->ClearResults($res);
         return $res;
     }

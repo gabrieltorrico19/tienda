@@ -1,12 +1,5 @@
 <?php
 
-/**
- * @author		Miguel Angel Macias Burgos
- * @company 	WBT
- * @copyright 	2026
- * @version     1.0
- */
-
 set_time_limit(0);
 //error_reporting(0);
 
@@ -27,6 +20,7 @@ class DataBase
         if ($this->op == 1){
             $this->link = mysqli_connect($this->serverName, $this->user, $this->pswd);
             mysqli_select_db($this->link, $this->dbName);
+            mysqli_set_charset($this->link, "utf8mb4");
         }
         
         return $this->link;
@@ -79,21 +73,20 @@ class DataBase
         }
     }
     
-    function DataListStructure($_res)
-    {
-    	$i=0;
-	    $ret = array();
-        
+function DataListStructure($_res)
+ {
+     $i=0;
+     $ret = array();
+         
         if ($this->op == 1){
             while ($row = mysqli_fetch_assoc($_res)) {
-    	        foreach ($row as $key => $value) {
-    	            $ret[$i][$key] = $value;
-    	            }
+                $row = array_change_key_case($row, CASE_UPPER);
+                $ret[$i] = $row;
     	        $i++;
-         	}
+          	}
         }   
-	    
-	    return ($ret);	    
+    	    
+    	    return ($ret);	    
     }
     
     function FetchArray($_res){

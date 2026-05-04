@@ -1,236 +1,154 @@
 <?php
+$baseUrl = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/tienda/tienda-admin';
+
+require_once __DIR__ . "/../../model/RN_Producto.php";
+
+$oRN_Producto = new RN_Producto();
+$productos = $oRN_Producto->GetList();
+
+$totalProductos = count($productos);
+$productosActivos = 0;
+$productosInactivos = 0;
+
+foreach ($productos as $p) {
+    if ($p->estado === 'disponible') $productosActivos++;
+    else $productosInactivos++;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion de Productos</title>
+    <title>Productos - Admin</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-                <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-dark: #090b10;
-            --surface-dark: #12161f;
-            --surface-hover: #1b212e;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --accent-glow: #00f0ff;
-            --accent-purple: #8a2be2;
-            --border-color: #272d3b;
-        }
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: #090b10 radial-gradient(circle at top left, #161c28, #090b10);
-            color: var(--text-primary);
-            min-height: 100vh;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            color: #ffffff;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            text-transform: uppercase;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-        }
-        p, label, span {
-            color: var(--text-secondary);
-        }
-        .container {
-            padding-top: 3rem;
-            padding-bottom: 3rem;
-        }
-        .card {
-            background-color: rgba(18, 22, 31, 0.7);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            color: var(--text-primary);
-        }
-        .card-body h5 {
-            color: var(--accent-glow);
-        }
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(0, 240, 255, 0.3);
-            box-shadow: 0 20px 50px rgba(0, 240, 255, 0.15);
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent-glow), #0077ff);
-            border: none;
-            color: #000 !important;
-            border-radius: 12px;
-            padding: 12px 24px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.4);
-        }
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #0077ff, var(--accent-glow));
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 240, 255, 0.6);
-        }
-        .btn-danger {
-            background: rgba(255, 59, 48, 0.1);
-            border: 1px solid rgba(255, 59, 48, 0.5);
-            color: #ff3b30;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .btn-danger:hover {
-            background: #ff3b30;
-            color: #fff !important;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 59, 48, 0.4);
-        }
-        .form-control {
-            background-color: var(--surface-dark);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            color: var(--text-primary);
-            padding: 12px 15px;
-            transition: all 0.3s;
-        }
-        .form-control:focus {
-            background-color: #0d1117;
-            border-color: var(--accent-glow);
-            color: #fff;
-            box-shadow: 0 0 0 4px rgba(0, 240, 255, 0.15);
-            outline: none;
-        }
-        select.form-control option {
-            background-color: #0d1117;
-            color: #ffffff;
-        }
-        table.table {
-            background-color: rgba(18, 22, 31, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05);
-            color: var(--text-primary);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-        }
-        table.table thead th {
-            background-color: rgba(0,0,0,0.6);
-            color: var(--accent-glow);
-            font-weight: 800;
-            border-bottom: 2px solid rgba(255,255,255,0.05);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-size: 0.85rem;
-            padding: 16px;
-        }
-        table.table tbody tr {
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.3s;
-        }
-        table.table tbody tr:hover {
-            background-color: rgba(0, 240, 255, 0.05);
-            transform: scale(1.005);
-        }
-        table.table td {
-            border-top: none;
-            vertical-align: middle;
-            color: var(--text-primary);
-            padding: 16px;
-        }
-        .list-group-item {
-            background-color: transparent !important;
-            border-color: rgba(255,255,255,0.05);
-            color: var(--text-primary);
-        }
-        /* Fixes for Navbar and Light Classes */
-        .bg-light, .navbar-light {
-            background-color: rgba(18, 22, 31, 0.9) !important;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-        }
-        .navbar-light .navbar-brand, 
-        .navbar-light .navbar-nav .nav-link {
-            color: var(--text-primary) !important;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        .navbar-light .navbar-nav .nav-link:hover {
-            color: var(--accent-glow) !important;
-        }
-        .navbar-light .navbar-toggler {
-            border-color: rgba(255,255,255,0.2) !important;
-            background-color: rgba(255,255,255,0.1);
-        }
-        .navbar-light .navbar-toggler-icon {
-            filter: invert(1) grayscale(100%) brightness(200%);
-        }
-        /* Footer fixes */
-        .bg-dark {
-            background-color: #07090d !important;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-        ::placeholder { color: var(--text-secondary); }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/view/css/main.css">
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="text-center">Gestion de Productos</h2>
-        <div class="text-right mb-3">
-            <a href="c-producto-new.php" class="btn btn-success">Agregar Producto</a>
-            <a href="../c-panel.php" class="btn btn-secondary">Volver</a>
-        </div>
-        <table class="table table-bordered table-responsive-md">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Cod</th>
-                    <th>Nombre</th>
-                    <th>Descripcion</th>
-                    <th>Precio</th>
-                    <th>Estado</th>
-                    <th>Marca</th>
-                    <th>Industria</th>
-                    <th>Categoria</th>
-                    <th>Imagen</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="<?php echo $baseUrl; ?>/control/admin/c-admin-panel.php" class="sidebar-brand">
+                    <span>🌿</span> Tienda Admin
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">Principal</div>
+                <a href="<?php echo $baseUrl; ?>/control/admin/c-admin-panel.php" class="nav-item">
+                    <span class="nav-icon">📊</span> Dashboard
+                </a>
+                <div class="nav-section">Gestión</div>
+                <a href="<?php echo $baseUrl; ?>/control/Producto/c-producto-list.php" class="nav-item active">
+                    <span class="nav-icon">📦</span> Productos
+                </a>
+                <a href="<?php echo $baseUrl; ?>/control/Categoria/c-categoria-list.php" class="nav-item">
+                    <span class="nav-icon">🏷️</span> Categorías
+                </a>
+                <a href="<?php echo $baseUrl; ?>/control/Marca/c-marca-list.php" class="nav-item">
+                    <span class="nav-icon">🏅</span> Marcas
+                </a>
+                <a href="<?php echo $baseUrl; ?>/control/Industria/c-industria-list.php" class="nav-item">
+                    <span class="nav-icon">🏭</span> Industrias
+                </a>
+                <a href="<?php echo $baseUrl; ?>/control/FormaPago/c-formapago-list.php" class="nav-item">
+                    <span class="nav-icon">💳</span> Formas de Pago
+                </a>
+                <a href="<?php echo $baseUrl; ?>/control/Sucursal/c-sucursal-list.php" class="nav-item">
+                    <span class="nav-icon">🏪</span> Sucursales
+                </a>
+                <a href="<?php echo $baseUrl; ?>/control/Inventario/c-inventario-list.php" class="nav-item">
+                    <span class="nav-icon">📋</span> Inventario
+                </a>
+                <div class="nav-section">Comunicación</div>
+                <a href="<?php echo $baseUrl; ?>/control/chat/c-chat-panel.php" class="nav-item">
+                    <span class="nav-icon">💬</span> Chat
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="<?php echo $baseUrl; ?>/control/auth/c-login.php" class="logout-btn">
+                    <span class="nav-icon">🚪</span> Cerrar Sesión
+                </a>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <div class="page-header">
+                <div class="page-title">
+                    <div class="page-title-icon">📦</div>
+                    Productos
+                </div>
+                <div class="page-actions">
+                    <a href="<?php echo $baseUrl; ?>/control/Producto/c-producto-new.php" class="btn btn-primary">+ Nuevo Producto</a>
+                </div>
+            </div>
+            
+            <div class="kpi-grid">
+                <div class="kpi-card mint">
+                    <div class="kpi-label">Total</div>
+                    <div class="kpi-value"><?php echo $totalProductos; ?></div>
+                </div>
+                <div class="kpi-card coral">
+                    <div class="kpi-label">Disponibles</div>
+                    <div class="kpi-value"><?php echo $productosActivos; ?></div>
+                </div>
+                <div class="kpi-card pink">
+                    <div class="kpi-label">Inactivos</div>
+                    <div class="kpi-value"><?php echo $productosInactivos; ?></div>
+                </div>
+            </div>
+            
+            <div class="data-card">
+                <div class="data-card-header">
+                    <div class="data-card-title">Lista de Productos</div>
+                </div>
                 <?php if (!empty($productos)) { ?>
-                    <?php foreach ($productos as $producto) { ?>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Precio</th>
+                            <th>Estado</th>
+                            <th>Marca</th>
+                            <th>Industria</th>
+                            <th>Categoría</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($productos as $producto) { ?>
                         <tr>
                             <td><?php echo $producto->cod; ?></td>
-                            <td><?php echo $producto->nombre; ?></td>
-                            <td><?php echo $producto->descripcion; ?></td>
-                            <td><?php echo number_format($producto->precio, 2); ?></td>
-                            <td><?php echo $producto->estado; ?></td>
-                            <td><?php echo $producto->marca; ?></td>
-                            <td><?php echo $producto->industria; ?></td>
-                            <td><?php echo $producto->categoria; ?></td>
+                            <td><?php echo htmlspecialchars($producto->nombre); ?></td>
+                            <td><?php echo htmlspecialchars($producto->descripcion); ?></td>
+                            <td>Bs. <?php echo number_format($producto->precio, 2); ?></td>
                             <td>
-                                <span><?php echo $producto->imagen; ?></span>
+                                <span class="badge <?php echo $producto->estado === 'disponible' ? 'badge-success' : 'badge-danger'; ?>">
+                                    <?php echo $producto->estado; ?>
+                                </span>
                             </td>
-                            <td>
-                                <a href="c-producto-edit.php?cod=<?php echo $producto->cod; ?>" class="btn btn-warning btn-sm">Editar</a>
-                                <a href="c-producto-delete.php?cod=<?php echo $producto->cod; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Estas seguro de que quieres eliminar este producto?')">Eliminar</a>
+                            <td><?php echo htmlspecialchars($producto->marca); ?></td>
+                            <td><?php echo htmlspecialchars($producto->industria); ?></td>
+                            <td><?php echo htmlspecialchars($producto->categoria); ?></td>
+                            <td class="actions">
+                                <a href="<?php echo $baseUrl; ?>/control/Producto/c-producto-edit.php?cod=<?php echo $producto->cod; ?>" class="btn btn-sm btn-warning">Editar</a>
+                                <a href="<?php echo $baseUrl; ?>/control/Producto/c-producto-delete.php?cod=<?php echo $producto->cod; ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar este producto?')">Eliminar</a>
                             </td>
                         </tr>
-                    <?php } ?>
+                        <?php } ?>
+                    </tbody>
+                </table>
                 <?php } else { ?>
-                    <tr><td colspan="10" class="text-center">No hay productos disponibles.</td></tr>
+                <div class="empty-state">
+                    <div class="empty-state-icon">📦</div>
+                    <div class="empty-state-text">No hay productos registrados</div>
+                    <a href="<?php echo $baseUrl; ?>/control/Producto/c-producto-new.php" class="btn btn-primary mt-4">+ Agregar Primer Producto</a>
+                </div>
                 <?php } ?>
-            </tbody>
-        </table>
+            </div>
+        </main>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
-
-
-

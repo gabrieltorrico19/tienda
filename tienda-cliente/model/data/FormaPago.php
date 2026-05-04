@@ -4,14 +4,12 @@ class FormaPago
 {
     public $cod;
     public $nombre;
-    public $descripcion;
     public $estado;
 
-    function __construct($cod, $nombre, $descripcion, $estado)
+    function __construct($cod = 0, $nombre = "", $estado = "activa")
     {
         $this->cod = $cod;
         $this->nombre = $nombre;
-        $this->descripcion = $descripcion;
         $this->estado = $estado;
     }
 }
